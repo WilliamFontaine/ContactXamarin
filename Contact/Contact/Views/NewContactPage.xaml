@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Contact.Views.NewContactPage"
+             xmlns:local="clr-namespace:Contact.ViewModels"
+             xmlns:dataForm="clr-namespace:Syncfusion.XForms.DataForm;assembly=Syncfusion.SfDataForm.XForms"
+             Title="Nouveau contact">
+
+    <ContentPage.BindingContext>
+        <local:NewContactViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout Spacing="3" Padding="15">
+            <Label Text="Entrez les informations du contact" FontSize="Medium" />
+            <dataForm:SfDataForm x:Name="dataForm" DataObject="{Binding Contact}"
+                                 VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+                                 LabelPosition="Top" ValidationMode="LostFocus" />
+
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Annuler" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand" />
+                <Button Text="Enregistrer" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

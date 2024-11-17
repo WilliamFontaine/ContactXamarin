@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Contact.Views.ContactPage"
+             Title="Liste des contacts"
+             xmlns:local="clr-namespace:Contact.ViewModels"
+             xmlns:model="clr-namespace:Contact.Models"
+             x:Name="BrowseContactPage">
+
+    <ContentPage.BindingContext>
+        <local:ContactViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ajouter" Command="{Binding AddContactCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView x:DataType="local:ContactViewModel" Command="{Binding LoadContactsCommand}"
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="ContactsListView"
+                        ItemsSource="{Binding Contacts}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10" x:DataType="model:Contact">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label Text="{Binding FirstName}"
+                                   Grid.Row="0"
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemTextStyle}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="{DynamicResource PrimaryTextColor}" />
+
+                            <Label Text="{Binding LastName}"
+                                   Grid.Row="1"
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemDetailTextStyle}"
+                                   FontSize="14"
+                                   TextColor="{DynamicResource SecondaryTextColor}" />
+
+                            <Label Text="{Binding PhoneNumber}"
+                                   Grid.Row="2"
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemDetailTextStyle}"
+                                   FontSize="14"
+                                   TextColor="{DynamicResource SecondaryTextColor}" />
+
+                            <Label Text="{Binding Email}"
+                                   Grid.Row="3"
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemDetailTextStyle}"
+                                   FontSize="14"
+                                   TextColor="{DynamicResource SecondaryTextColor}" />
+                        </Grid>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ContactViewModel}}, Path=ContactTapped}"
+                                CommandParameter="{Binding .}" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
